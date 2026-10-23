@@ -1,643 +1,640 @@
 <!DOCTYPE html>
-<html lang="es" class="dark">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hyperion - Aura Kingdom Guild Portal</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        hyperion: {
-                            bg: '#0b0d19',
-                            card: '#13172d',
-                            accent: '#9333ea',
-                            gold: '#f59e0b',
-                            cyan: '#06b6d4',
-                            glow: '#a855f7'
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        cinzel: ['Cinzel', 'serif']
-                    }
-                }
-            }
-        }
-    </script>
-    <!-- Google Fonts & Font Awesome Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800;900&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
+        :root {
+            --bg-dark: #0d0a1a;
+            --bg-card: #16122c;
+            --bg-hover: #221b44;
+            --accent-purple: #8b5cf6;
+            --accent-cyan: #06b6d4;
+            --accent-gold: #f59e0b;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --border-color: #2e2654;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
         body {
-            background-color: #0b0d19;
-            color: #e2e8f0;
-            font-family: 'Inter', sans-serif;
-            background-image: 
-                radial-gradient(circle at 15% 15%, rgba(147, 51, 234, 0.15) 0%, transparent 40%),
-                radial-gradient(circle at 85% 85%, rgba(6, 182, 212, 0.12) 0%, transparent 40%),
-                radial-gradient(circle at 50% 50%, rgba(245, 158, 11, 0.05) 0%, transparent 60%);
-            background-attachment: fixed;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            display: flex;
+            min-height: 100vh;
         }
 
-        .font-cinzel {
-            font-family: 'Cinzel', serif;
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            background-color: #080612;
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            z-index: 100;
         }
 
-        .glow-title {
-            text-shadow: 0 0 15px rgba(168, 85, 247, 0.6), 0 0 30px rgba(147, 51, 234, 0.4);
+        .logo {
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid var(--border-color);
         }
 
-        .glow-gold {
-            text-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
+        .logo i {
+            font-size: 28px;
+            color: var(--accent-purple);
+            filter: drop-shadow(0 0 8px rgba(139, 92, 246, 0.6));
         }
 
-        .card-blur {
-            background: rgba(19, 23, 45, 0.75);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(147, 51, 234, 0.2);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        .logo h1 {
+            font-size: 20px;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, #a78bfa, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
         }
 
-        .card-blur:hover {
-            border-color: rgba(168, 85, 247, 0.4);
+        .nav-menu {
+            list-style: none;
+            padding: 20px 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
+        .nav-item button {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            transition: all 0.2s ease;
         }
-        ::-webkit-scrollbar-track {
-            background: #0b0d19;
+
+        .nav-item button:hover {
+            background-color: var(--bg-hover);
+            color: var(--text-main);
         }
-        ::-webkit-scrollbar-thumb {
-            background: #2e1065;
-            border-radius: 4px;
+
+        .nav-item button.active {
+            background: linear-gradient(90deg, rgba(139, 92, 246, 0.2), transparent);
+            color: var(--accent-purple);
+            border-left: 3px solid var(--accent-purple);
         }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #581c87;
+
+        .nav-item button i {
+            font-size: 18px;
+            width: 24px;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 260px;
+            flex: 1;
+            padding: 32px;
+            max-width: 1400px;
+        }
+
+        .header {
+            margin-bottom: 32px;
+        }
+
+        .header h2 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Cards & Grid */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .card-header h3 {
+            font-size: 18px;
+            color: var(--accent-cyan);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Controls / Filters */
+        .controls {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .search-box, .select-box {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 10px 14px;
+            color: var(--text-main);
+            outline: none;
+            font-size: 14px;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .search-box:focus, .select-box:focus {
+            border-color: var(--accent-purple);
+        }
+
+        /* Infusions Grid */
+        .infusion-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 16px;
+        }
+
+        .infusion-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 16px;
+            position: relative;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .infusion-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent-purple);
+        }
+
+        .infusion-badge {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .badge-unlock { background: rgba(6, 182, 212, 0.2); color: var(--accent-cyan); border: 1px solid var(--accent-cyan); }
+        .badge-transform { background: rgba(139, 92, 246, 0.2); color: var(--accent-purple); border: 1px solid var(--accent-purple); }
+        .badge-buff { background: rgba(245, 158, 11, 0.2); color: var(--accent-gold); border: 1px solid var(--accent-gold); }
+
+        .eidolon-name {
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--accent-gold);
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .stars-rank {
+            color: #fbbf24;
+            font-size: 12px;
+            margin-left: 6px;
+        }
+
+        .skill-affected {
+            font-size: 13px;
+            color: var(--accent-cyan);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .infusion-desc {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* Tables */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        .data-table th, .data-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .data-table th {
+            background-color: rgba(0, 0, 0, 0.3);
+            color: var(--accent-cyan);
+        }
+
+        .data-table tr:hover {
+            background-color: var(--bg-hover);
+        }
+
+        /* Checklist */
+        .todo-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .todo-item input[type="checkbox"] {
+            accent-color: var(--accent-purple);
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        /* Guide Info Banner */
+        .info-banner {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(6, 182, 212, 0.15));
+            border: 1px solid var(--accent-purple);
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar { width: 70px; }
+            .sidebar .logo h1, .sidebar span { display: none; }
+            .main-content { margin-left: 70px; padding: 16px; }
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between selection:bg-purple-600 selection:text-white">
+<body>
 
-    <!-- HEADER / NAVIGATION -->
-    <header class="sticky top-0 z-50 card-blur border-b border-purple-900/40">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-20">
-                
-                <!-- Guild Logo & Title -->
-                <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('timers')">
-                    <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-purple-700 via-indigo-600 to-cyan-400 p-0.5 shadow-lg shadow-purple-900/50 flex items-center justify-center">
-                        <div class="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
-                            <i class="fa-solid fa-dragon text-2xl text-purple-400"></i>
-                        </div>
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="logo">
+            <i class="fa-solid fa-dragon"></i>
+            <h1>HYPERION</h1>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <button class="active" onclick="switchTab('dashboard')">
+                    <i class="fa-solid fa-house"></i>
+                    <span>Inicio</span>
+                </button>
+            </li>
+            <li class="nav-item">
+                <button onclick="switchTab('infusions')">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    <span>Eidolon Infusions</span>
+                </button>
+            </li>
+            <li class="nav-item">
+                <button onclick="switchTab('fishing')">
+                    <i class="fa-solid fa-fish"></i>
+                    <span>Guía de Pesca</span>
+                </button>
+            </li>
+            <li class="nav-item">
+                <button onclick="switchTab('alchemy')">
+                    <i class="fa-solid fa-flask"></i>
+                    <span>Alquimia</span>
+                </button>
+            </li>
+            <li class="nav-item">
+                <button onclick="switchTab('skytower')">
+                    <i class="fa-solid fa-chess-rook"></i>
+                    <span>Sky Tower</span>
+                </button>
+            </li>
+        </ul>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+
+        <!-- DASHBOARD TAB -->
+        <div id="dashboard" class="tab-content active">
+            <div class="header">
+                <h2>Portal del Gremio Hyperion</h2>
+                <p>Bienvenido al centro de información y herramientas para Aura Kingdom.</p>
+            </div>
+
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fa-solid fa-bullhorn"></i> Anuncios de Hyperion</h3>
                     </div>
-                    <div>
-                        <h1 class="font-cinzel text-2xl sm:text-3xl font-black tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-amber-300 to-cyan-400 glow-title">
-                            HYPERION
-                        </h1>
-                        <p class="text-xs text-purple-300 font-medium tracking-widest uppercase">Aura Kingdom Guild Portal</p>
-                    </div>
+                    <p style="color: var(--text-muted); font-size: 14px; line-height: 1.6;">
+                        ¡Listos para la próxima rotación de Sky Tower! Asegúrense de revisar sus infusiones de Eidolon para maximizar el DPS y buff de clase.
+                    </p>
                 </div>
 
-                <!-- Navigation Tabs (Desktop) -->
-                <nav class="hidden md:flex space-x-1 lg:space-x-2">
-                    <button onclick="switchTab('timers')" id="nav-timers" class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 flex items-center space-x-2 bg-purple-900/50 text-purple-200 border border-purple-500/30">
-                        <i class="fa-solid fa-clock text-amber-400"></i>
-                        <span>Timers & Bosses</span>
-                    </button>
-                    <button onclick="switchTab('guides')" id="nav-guides" class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold text-gray-300 hover:text-white hover:bg-purple-900/30 transition-all duration-200 flex items-center space-x-2">
-                        <i class="fa-solid fa-book-bookmark text-cyan-400"></i>
-                        <span>Pesca y Guías</span>
-                    </button>
-                    <button onclick="switchTab('skytower')" id="nav-skytower" class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold text-gray-300 hover:text-white hover:bg-purple-900/30 transition-all duration-200 flex items-center space-x-2">
-                        <i class="fa-solid fa-dungeon text-purple-400"></i>
-                        <span>Sky Tower</span>
-                    </button>
-                    <button onclick="switchTab('checklist')" id="nav-checklist" class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold text-gray-300 hover:text-white hover:bg-purple-900/30 transition-all duration-200 flex items-center space-x-2">
-                        <i class="fa-solid fa-list-check text-green-400"></i>
-                        <span>Checklist Diario</span>
-                    </button>
-                </nav>
-
-                <!-- Mobile menu button -->
-                <div class="md:hidden">
-                    <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="p-2 rounded-lg bg-purple-950/80 text-purple-300 border border-purple-800/50 hover:text-white">
-                        <i class="fa-solid fa-bars text-xl"></i>
-                    </button>
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fa-solid fa-list-check"></i> Tareas Diarias / Dailies</h3>
+                    </div>
+                    <div id="todo-list">
+                        <div class="todo-item">
+                            <input type="checkbox" id="d1" onchange="saveChecklist()">
+                            <label for="d1">Recompensas de Registro Diario</label>
+                        </div>
+                        <div class="todo-item">
+                            <input type="checkbox" id="d2" onchange="saveChecklist()">
+                            <label for="d2">Misiones de Gremio (Guild Quests)</label>
+                        </div>
+                        <div class="todo-item">
+                            <input type="checkbox" id="d3" onchange="saveChecklist()">
+                            <label for="d3">Dungeons de Eidolon / Trial Dungeons</label>
+                        </div>
+                        <div class="todo-item">
+                            <input type="checkbox" id="d4" onchange="saveChecklist()">
+                            <label for="d4">Pesca Diaria de Rey Pez (King Fish)</label>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Mobile Navigation Menu -->
-        <div id="mobile-menu" class="hidden md:hidden card-blur border-b border-purple-900/50 px-4 pt-2 pb-4 space-y-2">
-            <button onclick="switchTab('timers'); toggleMobileMenu()" class="w-full text-left px-4 py-2.5 rounded-lg text-sm font-semibold text-gray-200 hover:bg-purple-900/50 flex items-center space-x-3">
-                <i class="fa-solid fa-clock text-amber-400 w-5"></i>
-                <span>Timers & Bosses</span>
-            </button>
-            <button onclick="switchTab('guides'); toggleMobileMenu()" class="w-full text-left px-4 py-2.5 rounded-lg text-sm font-semibold text-gray-200 hover:bg-purple-900/50 flex items-center space-x-3">
-                <i class="fa-solid fa-book-bookmark text-cyan-400 w-5"></i>
-                <span>Pesca y Base de Datos</span>
-            </button>
-            <button onclick="switchTab('skytower'); toggleMobileMenu()" class="w-full text-left px-4 py-2.5 rounded-lg text-sm font-semibold text-gray-200 hover:bg-purple-900/50 flex items-center space-x-3">
-                <i class="fa-solid fa-dungeon text-purple-400 w-5"></i>
-                <span>Sky Tower Schedule</span>
-            </button>
-            <button onclick="switchTab('checklist'); toggleMobileMenu()" class="w-full text-left px-4 py-2.5 rounded-lg text-sm font-semibold text-gray-200 hover:bg-purple-900/50 flex items-center space-x-3">
-                <i class="fa-solid fa-list-check text-green-400 w-5"></i>
-                <span>Checklist Diario</span>
-            </button>
-        </div>
-    </header>
+        <!-- EIDOLON INFUSIONS TAB -->
+        <div id="infusions" class="tab-content">
+            <div class="header">
+                <h2>Eidolon Infusions (Soul Infusion)</h2>
+                <p>Consulta las modificaciones y habilidades secundarias que otorgan tus Eidolons a las habilidades principales de tu clase.</p>
+            </div>
 
-    <!-- HERO / ANNOUNCEMENTS BANNER -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-2">
-        <div class="card-blur rounded-2xl p-6 relative overflow-hidden border border-purple-500/30">
-            <div class="absolute right-0 top-0 -mr-16 -mt-16 w-64 h-64 bg-purple-600/10 rounded-full blur-3xl pointer-events-none"></div>
-            <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-                <div class="space-y-1">
-                    <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-semibold">
-                        <i class="fa-solid fa-bullhorn animate-pulse"></i>
-                        <span>Anuncio Oficial de Hyperion</span>
-                    </div>
-                    <h2 class="font-cinzel text-xl sm:text-2xl font-bold text-white">Reclutamiento Activo para Sky Tower Elite</h2>
-                    <p class="text-sm text-gray-300 max-w-2xl">Buscamos jugadores activos lvl 100+ con equipo optimizado. Horarios de Raids actualizados abajo. ¡Sincroniza tus timers de bosses en esta plataforma!</p>
-                </div>
-                <div class="flex items-center space-x-3 shrink-0">
-                    <div class="text-right hidden sm:block">
-                        <span class="block text-xs text-gray-400">Servidor Hora local:</span>
-                        <span id="server-time" class="font-mono text-lg font-bold text-cyan-300">00:00:00 UTC</span>
-                    </div>
-                    <button onclick="resetAllTimers()" class="px-4 py-2 rounded-xl bg-purple-900/60 hover:bg-purple-800/80 text-purple-200 border border-purple-500/40 text-xs font-semibold transition-all shadow hover:shadow-purple-900/50">
-                        <i class="fa-solid fa-rotate-right mr-1"></i> Reiniciar Timers
-                    </button>
-                </div>
+            <div class="info-banner">
+                <i class="fa-solid fa-circle-info" style="color: var(--accent-cyan);"></i>
+                <strong>¿Cómo funcionan?</strong> Se gestionan en la pestaña <em>Soul Infusion</em> dentro del menú de <em>Weapon Specialization</em>. Cada habilidad principal de clase puede equipar hasta 2 infusiones sin costo alguno de oro o materiales. El nivel de estrella (★) se desbloquea evolucionando a tu Eidolon.
+            </div>
+
+            <div class="controls">
+                <input type="text" id="infusion-search" class="search-box" placeholder="Buscar por Eidolon, Habilidad o Efecto..." oninput="filterInfusions()">
+                <select id="infusion-type-filter" class="select-box" onchange="filterInfusions()">
+                    <option value="all">Todos los Tipos</option>
+                    <option value="Skill Unlock">Skill Unlock (Habilidad)</option>
+                    <option value="Transform">Transform (Transformación)</option>
+                    <option value="Buff Chance">Buff Chance (Probabilidad)</option>
+                </select>
+                <select id="infusion-star-filter" class="select-box" onchange="filterInfusions()">
+                    <option value="all">Cualquier Estrellas (★)</option>
+                    <option value="1">1 Star (1★)</option>
+                    <option value="2">2 Stars (2★)</option>
+                    <option value="3">3 Stars (3★)</option>
+                    <option value="4">4 Stars (4★)</option>
+                </select>
+            </div>
+
+            <div class="infusion-grid" id="infusions-container">
+                <!-- Se llena con JavaScript -->
             </div>
         </div>
-    </section>
 
-    <!-- MAIN CONTENT CONTAINERS -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-grow">
-
-        <!-- ==================== TAB 1: TIMERS & BOSSES ==================== -->
-        <section id="tab-timers" class="tab-content space-y-6">
-            
-            <!-- Filters & Search -->
-            <div class="card-blur p-4 rounded-xl flex flex-col md:flex-row gap-4 justify-between items-center">
-                <div class="relative w-full md:w-80">
-                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-purple-400 text-sm"></i>
-                    <input type="text" id="timer-search" oninput="filterTimers()" placeholder="Buscar Boss, Eidolon o Mapa..." class="w-full bg-slate-900/80 text-sm text-gray-200 pl-10 pr-4 py-2 rounded-lg border border-purple-900/50 focus:outline-none focus:border-purple-500 transition">
-                </div>
-                <div class="flex flex-wrap gap-2 w-full md:w-auto">
-                    <button onclick="setTimerFilter('all')" class="timer-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-purple-600 text-white">Todos</button>
-                    <button onclick="setTimerFilter('worldboss')" class="timer-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-gray-300 hover:bg-purple-900/40">World Bosses</button>
-                    <button onclick="setTimerFilter('eidolon')" class="timer-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-gray-300 hover:bg-purple-900/40">Eidolons</button>
-                    <button onclick="setTimerFilter('event')" class="timer-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-gray-300 hover:bg-purple-900/40">Eventos Diarios</button>
-                </div>
+        <!-- FISHING TAB -->
+        <div id="fishing" class="tab-content">
+            <div class="header">
+                <h2>Base de Datos de Pesca</h2>
+                <p>Ubicaciones de peces, cañas recomendadas y cebos necesarios.</p>
             </div>
-
-            <!-- Timers Cards Grid -->
-            <div id="timers-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Dynamically populated via JS -->
+            <div class="card">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Zona / Mapa</th>
+                            <th>Pez</th>
+                            <th>Cebo Requerido</th>
+                            <th>Recompensa / Droplist</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Candar Ocean</td>
+                            <td>Mirage Tuna</td>
+                            <td>Specialized Fish Bait</td>
+                            <td>Evolutive Gems, Costume Crafting</td>
+                        </tr>
+                        <tr>
+                            <td>Helonia Coast</td>
+                            <td>Golden Lobster</td>
+                            <td>Worm Bait</td>
+                            <td>Enchantment Cards, Gold Powder</td>
+                        </tr>
+                        <tr>
+                            <td>Triatio Highlands</td>
+                            <td>Emerald Salmon</td>
+                            <td>Incapable Fly Bait</td>
+                            <td>Eidolon Crystals, Fishing Tokens</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-        </section>
+        </div>
 
-        <!-- ==================== TAB 2: FISHING & GUIDES DATABASE ==================== -->
-        <section id="tab-guides" class="tab-content hidden space-y-6">
-            
-            <!-- Database Controls -->
-            <div class="card-blur p-4 rounded-xl flex flex-col md:flex-row gap-4 justify-between items-center">
-                <div class="relative w-full md:w-80">
-                    <i class="fa-solid fa-filter absolute left-3.5 top-3 text-cyan-400 text-sm"></i>
-                    <input type="text" id="guide-search" oninput="filterGuides()" placeholder="Buscar Pez, Carnada, Receta o Ítem..." class="w-full bg-slate-900/80 text-sm text-gray-200 pl-10 pr-4 py-2 rounded-lg border border-purple-900/50 focus:outline-none focus:border-cyan-500 transition">
-                </div>
-                <div class="flex flex-wrap gap-2 w-full md:w-auto">
-                    <button onclick="setGuideFilter('all')" class="guide-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-cyan-600 text-white">Todo</button>
-                    <button onclick="setGuideFilter('fishing')" class="guide-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-gray-300 hover:bg-cyan-900/40">Pesca & King Fish</button>
-                    <button onclick="setGuideFilter('alchemy')" class="guide-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-gray-300 hover:bg-cyan-900/40">Alquimia & Cocina</button>
-                    <button onclick="setGuideFilter('cards')" class="guide-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-gray-300 hover:bg-cyan-900/40">Cartas & Secretos</button>
-                </div>
+        <!-- ALCHEMY TAB -->
+        <div id="alchemy" class="tab-content">
+            <div class="header">
+                <h2>Recetas de Alquimia</h2>
+                <p>Materiales y fórmulas para pociones y elixir de batalla.</p>
             </div>
-
-            <!-- Guides Database Table -->
-            <div class="card-blur rounded-2xl overflow-hidden border border-purple-900/40 shadow-xl">
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-sm text-gray-300">
-                        <thead class="bg-slate-950/80 text-xs uppercase font-cinzel text-purple-300 border-b border-purple-800/40">
-                            <tr>
-                                <th class="px-6 py-4">Categoría</th>
-                                <th class="px-6 py-4">Nombre del Ítem / Objetivo</th>
-                                <th class="px-6 py-4">Ubicación / Mapa</th>
-                                <th class="px-6 py-4">Cebo / Requisito</th>
-                                <th class="px-6 py-4">Recompensa / Drop Principal</th>
-                            </tr>
-                        </thead>
-                        <tbody id="guides-table-body" class="divide-y divide-purple-950/50">
-                            <!-- Dynamically populated via JS -->
-                        </tbody>
-                    </table>
-                </div>
+            <div class="card">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Objeto Creado</th>
+                            <th>Material 1</th>
+                            <th>Material 2</th>
+                            <th>Efecto de la Poción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Superior Healing Potion</td>
+                            <td>Fresh Herb x5</td>
+                            <td>Pure Water x2</td>
+                            <td>Restaura 35% HP al instante</td>
+                        </tr>
+                        <tr>
+                            <td>Elixir of Speed</td>
+                            <td>Energy Leaf x3</td>
+                            <td>Magic Essence x1</td>
+                            <td>Aumenta Velocidad de Movimiento +10%</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-        </section>
+        </div>
 
-        <!-- ==================== TAB 3: SKY TOWER SCHEDULE ==================== -->
-        <section id="tab-skytower" class="tab-content hidden space-y-6">
-            <div class="card-blur p-6 rounded-2xl border border-purple-500/30">
-                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
-                    <div>
-                        <h2 class="font-cinzel text-2xl font-bold text-white glow-gold">Horario de Grupos Sky Tower</h2>
-                        <p class="text-sm text-gray-300">Organización semanal de raids y distribución de roles dentro del gremio.</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-full bg-purple-900/60 text-purple-300 border border-purple-500/30 text-xs font-semibold">
-                        Pisos disponibles: 1F - 50F
-                    </span>
-                </div>
-
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <!-- Group 1 -->
-                    <div class="bg-slate-900/60 rounded-xl p-5 border border-purple-800/40 relative">
-                        <div class="flex justify-between items-center mb-4">
-                            <h3 class="font-cinzel text-lg font-bold text-amber-400">Grupo 1 - Raid Principal (Main)</h3>
-                            <span class="text-xs px-2.5 py-1 rounded bg-green-500/20 text-green-300 border border-green-500/30">Sábado 20:00 UTC</span>
-                        </div>
-                        <p class="text-xs text-gray-400 mb-4">Líder de Raid: <span class="text-cyan-300 font-semibold">Hyperion_RaidMaster</span></p>
-                        
-                        <div class="space-y-2">
-                            <div class="flex justify-between items-center p-2 rounded bg-slate-950/60 text-xs">
-                                <span class="font-medium text-purple-300"><i class="fa-solid fa-shield-halved text-amber-400 w-5"></i> Tanques (Tanks)</span>
-                                <span class="text-gray-300">Guardian / Paladin (2/2) - Lleno</span>
-                            </div>
-                            <div class="flex justify-between items-center p-2 rounded bg-slate-950/60 text-xs">
-                                <span class="font-medium text-purple-300"><i class="fa-solid fa-notes-medical text-green-400 w-5"></i> Curadores (Healers)</span>
-                                <span class="text-gray-300">Bard / Holy Sword (2/2) - Lleno</span>
-                            </div>
-                            <div class="flex justify-between items-center p-2 rounded bg-slate-950/60 text-xs">
-                                <span class="font-medium text-purple-300"><i class="fa-solid fa-wand-magic-sparkles text-cyan-400 w-5"></i> DPS Rango & Mago</span>
-                                <span class="text-gray-300">Sorcerer / Wizard (10/12)</span>
-                            </div>
-                            <div class="flex justify-between items-center p-2 rounded bg-slate-950/60 text-xs">
-                                <span class="font-medium text-purple-300"><i class="fa-solid fa-burst text-red-400 w-5"></i> DPS Melee</span>
-                                <span class="text-gray-300">Duelist / Ronin (10/10) - Lleno</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Group 2 -->
-                    <div class="bg-slate-900/60 rounded-xl p-5 border border-purple-800/40 relative">
-                        <div class="flex justify-between items-center mb-4">
-                            <h3 class="font-cinzel text-lg font-bold text-cyan-300">Grupo 2 - Secundario / Alter</h3>
-                            <span class="text-xs px-2.5 py-1 rounded bg-blue-500/20 text-blue-300 border border-blue-500/30">Domingo 18:00 UTC</span>
-                        </div>
-                        <p class="text-xs text-gray-400 mb-4">Líder de Raid: <span class="text-cyan-300 font-semibold">Aura_Vanguard</span></p>
-                        
-                        <div class="space-y-2">
-                            <div class="flex justify-between items-center p-2 rounded bg-slate-950/60 text-xs">
-                                <span class="font-medium text-purple-300"><i class="fa-solid fa-shield-halved text-amber-400 w-5"></i> Tanques (Tanks)</span>
-                                <span class="text-gray-300">Guardian (1/2) - Requerido 1</span>
-                            </div>
-                            <div class="flex justify-between items-center p-2 rounded bg-slate-950/60 text-xs">
-                                <span class="font-medium text-purple-300"><i class="fa-solid fa-notes-medical text-green-400 w-5"></i> Curadores (Healers)</span>
-                                <span class="text-gray-300">Bard (2/2) - Lleno</span>
-                            </div>
-                            <div class="flex justify-between items-center p-2 rounded bg-slate-950/60 text-xs">
-                                <span class="font-medium text-purple-300"><i class="fa-solid fa-wand-magic-sparkles text-cyan-400 w-5"></i> DPS Rango & Mago</span>
-                                <span class="text-gray-300">Cualquier DPS Lvl 95+ (8/12)</span>
-                            </div>
-                            <div class="flex justify-between items-center p-2 rounded bg-slate-950/60 text-xs">
-                                <span class="font-medium text-purple-300"><i class="fa-solid fa-burst text-red-400 w-5"></i> DPS Melee</span>
-                                <span class="text-gray-300">Requerido DPS Melee (6/10)</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <!-- SKY TOWER TAB -->
+        <div id="skytower" class="tab-content">
+            <div class="header">
+                <h2>Organización de Sky Tower</h2>
+                <p>Estrategia y asignación de grupos para las raid semanales de Hyperion.</p>
             </div>
-        </section>
-
-        <!-- ==================== TAB 4: CHECKLIST DIARIO ==================== -->
-        <section id="tab-checklist" class="tab-content hidden space-y-6">
-            <div class="card-blur p-6 rounded-2xl border border-purple-500/30">
-                <div class="flex justify-between items-center mb-6">
-                    <div>
-                        <h2 class="font-cinzel text-2xl font-bold text-white glow-title">Checklist Diario del Jugador</h2>
-                        <p class="text-sm text-gray-300">Haz seguimiento a tus tareas diarias. Los datos se guardan en tu navegador.</p>
-                    </div>
-                    <button onclick="resetChecklist()" class="px-3 py-1.5 rounded-lg bg-red-900/40 hover:bg-red-800/60 text-red-300 border border-red-500/30 text-xs font-semibold transition">
-                        <i class="fa-solid fa-arrow-rotate-left mr-1"></i> Desmarcar Todo
-                    </button>
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fa-solid fa-users-gear"></i> Composición de Party Recomendada</h3>
                 </div>
-
-                <div id="checklist-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <!-- Dynamically rendered checklist items -->
-                </div>
+                <p style="color: var(--text-muted); font-size: 14px; line-height: 1.6;">
+                    • <strong>Tanks:</strong> Guardian / Lancer (Con alto P-DMG Reduction)<br>
+                    • <strong>Healers:</strong> Bard / Wizard<br>
+                    • <strong>DPS Principales:</strong> Duelist, Shuriken, Ravager, Starcaller (con Infusiones de Eidolon orientadas a CRIT/DMG)
+                </p>
             </div>
-        </section>
+        </div>
 
     </main>
 
-    <!-- FOOTER -->
-    <footer class="card-blur border-t border-purple-900/40 py-6 mt-12">
-        <div class="max-w-7xl mx-auto px-4 text-center space-y-2">
-            <p class="font-cinzel text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-amber-300">
-                HYPERION GUILD &copy; 2026
-            </p>
-            <p class="text-xs text-gray-400">Portal no oficial desarrollado para la comunidad de Aura Kingdom. Todos los nombres e imágenes son propiedad de X-Legend / Aeria Games.</p>
-        </div>
-    </footer>
-
-    <!-- INTERACTIVE JAVASCRIPT LOGIC -->
     <script>
-        // Database State
-        let timersData = [
-            { id: 'tb1', name: 'Eidolon Spawn: Zaahir', map: 'Vulture Plateau', category: 'eidolon', respawnMinutes: 180, remainingSeconds: 180 * 60, icon: 'fa-fire' },
-            { id: 'tb2', name: 'World Boss: Titanus', map: 'Silent Ice Field', category: 'worldboss', respawnMinutes: 240, remainingSeconds: 120 * 60, icon: 'fa-skull' },
-            { id: 'tb3', name: 'Eidolon Spawn: Shirayuki', map: 'Crescent Hill', category: 'eidolon', respawnMinutes: 120, remainingSeconds: 45 * 60, icon: 'fa-snowflake' },
-            { id: 'tb4', name: 'Evento: Pesca del Rey (King Fish)', map: 'Vulture Plateau', category: 'event', respawnMinutes: 90, remainingSeconds: 15 * 60, icon: 'fa-fish-fins' },
-            { id: 'tb5', name: 'World Boss: Keres', map: 'Desolate Valley', category: 'worldboss', respawnMinutes: 300, remainingSeconds: 210 * 60, icon: 'fa-ghost' },
-            { id: 'tb6', name: 'Guerreiro da Arena / Evento PVP', map: 'Navia City', category: 'event', respawnMinutes: 360, remainingSeconds: 300 * 60, icon: 'fa-trophy' }
+        // Datos de Eidolon Infusions
+        const infusionData = [
+            { eidolon: "Ameshiko", stars: 1, type: "Transform", skill: "Primary Skill 1", desc: "Transforms skill effect to add a damage boost over time." },
+            { eidolon: "Ameshiko", stars: 2, type: "Buff Chance", skill: "Primary Skill 2", desc: "15% chance to increase Movement Speed by 10% for 6 seconds upon hit." },
+            { eidolon: "Astraea", stars: 1, type: "Skill Unlock", skill: "Primary Skill 1", desc: "Unlocks an additional holy shockwave attack upon skill execution." },
+            { eidolon: "Astraea", stars: 3, type: "Buff Chance", skill: "Primary Skill 3", desc: "Grant a 20% chance to reduce enemy Defense by 8% on hit." },
+            { eidolon: "Cleopatra", stars: 2, type: "Transform", skill: "Primary Skill 2", desc: "Modifies skill to apply a poison stack dealing continuous Dark DMG." },
+            { eidolon: "Cleopatra", stars: 4, type: "Buff Chance", skill: "Primary Skill 1", desc: "25% chance to boost Crit Rate by 12% for the entire party." },
+            { eidolon: "Kitsune", stars: 1, type: "Buff Chance", skill: "Primary Skill 1", desc: "10% chance to restore 3% HP when hitting targets." },
+            { eidolon: "Kitsune", stars: 3, type: "Skill Unlock", skill: "Primary Skill 2", desc: "Unlocks flame aura dealing damage to adjacent enemies." },
+            { eidolon: "Ifrit", stars: 2, type: "Transform", skill: "Primary Skill 1", desc: "Converts damage type to Flame and increases skill area of effect." },
+            { eidolon: "Ifrit", stars: 4, type: "Buff Chance", skill: "Primary Skill 3", desc: "Provides a 30% chance to increase Fire DMG by 15%." },
+            { eidolon: "Shiva", stars: 1, type: "Transform", skill: "Primary Skill 2", desc: "Adds an Ice freeze effect lasting for 2 seconds." },
+            { eidolon: "Shiva", stars: 3, type: "Skill Unlock", skill: "Primary Skill 1", desc: "Unlocks frost shield absorbing incoming damage." }
         ];
 
-        let guidesData = [
-            { category: 'fishing', name: 'King Salmon', map: 'Crescent Hill', requirement: 'Cebo Brillante / Rod Lvl 60', reward: 'Milagro de Pesca, Trofeo de Rey' },
-            { category: 'fishing', name: 'Glacier Lobster', map: 'Silent Ice Field', requirement: 'Gusano de Hielo / Rod Lvl 70', reward: 'Esencia de Alquimia, Anillo SSR' },
-            { category: 'alchemy', name: 'Poción de Ataque Superior', map: 'Alquimia en Ciudad Navia', requirement: 'Flor de Luz x3, Polvo Mágico x2', reward: '+15% Daño Físico/Mágico por 30m' },
-            { category: 'alchemy', name: 'Comida de Gran Chef: Estofado', map: 'Cocina de Gremio', requirement: 'Carne Real x2, Especias de Navia', reward: '+10% CRIT y VEL por 1 hora' },
-            { category: 'cards', name: 'Carta de Leyenda: Alucard', map: 'Dungeon Deviszar', requirement: 'Deck Nivel 50', reward: 'Atributo Oscuro +8%' },
-            { category: 'cards', name: 'Secretos de Combate Vol. 3', map: 'Sky Tower 20F', requirement: 'Drop de Cofre Final', reward: 'Puntos de Dominio de Clase' }
-        ];
-
-        let checklistData = [
-            { id: 'chk1', title: 'Dungeons de Gremio Dailies', desc: 'Completar 3 runs de Misión de Gremio', done: false },
-            { id: 'chk2', title: 'Caza de World Bosses', desc: 'Derrotar al menos 2 Bosses del mundo', done: false },
-            { id: 'chk3', title: 'Misiones de Tablón (Navia)', desc: 'Entregar misiones de la Villa', done: false },
-            { id: 'chk4', title: 'Pesca Diaria de Reyes', desc: 'Atrapar 5 King Fish para el cofre diario', done: false },
-            { id: 'chk5', title: 'Donación de Alquimia al Gremio', desc: 'Aportar recursos al banco de gremio', done: false }
-        ];
-
-        let currentTimerFilter = 'all';
-        let currentGuideFilter = 'all';
-
-        // Initialize App
-        window.onload = function() {
-            loadChecklist();
-            renderTimers();
-            renderGuides();
-            renderChecklist();
-            startClockAndTimers();
-        };
-
-        // Navigation Switcher
-        function switchTab(tabId) {
-            let tabs = document.querySelectorAll('.tab-content');
-            tabs.forEach(function(tab) {
-                tab.classList.add('hidden');
-            });
-            document.getElementById('tab-' + tabId).classList.remove('hidden');
-
-            // Update Nav Buttons Highlight
-            let navBtns = document.querySelectorAll('.nav-btn');
-            navBtns.forEach(function(btn) {
-                btn.classList.remove('bg-purple-900/50', 'text-purple-200', 'border', 'border-purple-500/30');
-                btn.classList.add('text-gray-300');
-            });
-
-            let activeBtn = document.getElementById('nav-' + tabId);
-            if (activeBtn) {
-                activeBtn.classList.add('bg-purple-900/50', 'text-purple-200', 'border', 'border-purple-500/30');
-                activeBtn.classList.remove('text-gray-300');
-            }
-        }
-
-        function toggleMobileMenu() {
-            let menu = document.getElementById('mobile-menu');
-            menu.classList.toggle('hidden');
-        }
-
-        // Live Clock & Timer Engine
-        function startClockAndTimers() {
-            setInterval(function() {
-                // Server Clock Update
-                let now = new Date();
-                let utcString = now.toUTCString().split(' ')[4] + ' UTC';
-                document.getElementById('server-time').innerText = utcString;
-
-                // Timers Countdown
-                timersData.forEach(function(timer) {
-                    if (timer.remainingSeconds > 0) {
-                        timer.remainingSeconds -= 1;
-                    }
-                    updateTimerUI(timer);
-                });
-            }, 1000);
-        }
-
-        // Render Timers
-        function renderTimers() {
-            let grid = document.getElementById('timers-grid');
-            grid.innerHTML = '';
-
-            let searchVal = document.getElementById('timer-search').value.toLowerCase();
-
-            timersData.forEach(function(timer) {
-                let matchesCategory = (currentTimerFilter === 'all' || timer.category === currentTimerFilter);
-                let matchesSearch = timer.name.toLowerCase().includes(searchVal) || timer.map.toLowerCase().includes(searchVal);
-
-                if (matchesCategory && matchesSearch) {
-                    let card = document.createElement('div');
-                    card.className = 'card-blur p-5 rounded-2xl relative flex flex-col justify-between border border-purple-900/40 hover:border-purple-500/50 transition';
-                    card.id = 'timer-card-' + timer.id;
-
-                    card.innerHTML = `
-                        <div>
-                            <div class="flex justify-between items-start mb-3">
-                                <div class="flex items-center space-x-3">
-                                    <div class="w-10 h-10 rounded-lg bg-purple-900/50 border border-purple-500/30 flex items-center justify-center text-amber-400">
-                                        <i class="fa-solid ${timer.icon} text-lg"></i>
-                                    </div>
-                                    <div>
-                                        <h3 class="font-bold text-white text-base">${timer.name}</h3>
-                                        <p class="text-xs text-cyan-300"><i class="fa-solid fa-location-dot mr-1"></i>${timer.map}</p>
-                                    </div>
-                                </div>
-                                <span class="text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-slate-900 text-purple-300 border border-purple-800/40">${timer.category}</span>
-                            </div>
-                        </div>
-
-                        <div class="mt-4 pt-4 border-t border-purple-950 flex items-center justify-between">
-                            <div>
-                                <span class="text-[11px] text-gray-400 block">Tiempo de Spawn:</span>
-                                <span id="time-display-${timer.id}" class="font-mono text-xl font-black text-amber-300">00:00:00</span>
-                            </div>
-                            <button onclick="claimTimer('${timer.id}')" class="px-3 py-2 rounded-xl bg-gradient-to-r from-purple-700 to-indigo-600 hover:from-purple-600 hover:to-indigo-500 text-white text-xs font-semibold shadow-md transition flex items-center space-x-1">
-                                <i class="fa-solid fa-skull-crossbones mr-1"></i>
-                                <span>Derrotado</span>
-                            </button>
-                        </div>
-                    `;
-                    grid.appendChild(card);
-                    updateTimerUI(timer);
-                }
-            });
-        }
-
-        function updateTimerUI(timer) {
-            let display = document.getElementById('time-display-' + timer.id);
-            if (!display) return;
-
-            if (timer.remainingSeconds <= 0) {
-                display.innerText = '¡DISPONIBLE!';
-                display.className = 'font-mono text-xl font-black text-green-400 animate-pulse';
-            } else {
-                let hrs = Math.floor(timer.remainingSeconds / 3600);
-                let mins = Math.floor((timer.remainingSeconds % 3600) / 60);
-                let secs = timer.remainingSeconds % 60;
-
-                let formatHrs = hrs < 10 ? '0' + hrs : hrs;
-                let formatMins = mins < 10 ? '0' + mins : mins;
-                let formatSecs = secs < 10 ? '0' + secs : secs;
-
-                display.innerText = `${formatHrs}:${formatMins}:${formatSecs}`;
-                display.className = 'font-mono text-xl font-black text-amber-300';
-            }
-        }
-
-        function claimTimer(timerId) {
-            let timer = timersData.find(function(t) { return t.id === timerId; });
-            if (timer) {
-                timer.remainingSeconds = timer.respawnMinutes * 60;
-                updateTimerUI(timer);
-            }
-        }
-
-        function resetAllTimers() {
-            timersData.forEach(function(timer) {
-                timer.remainingSeconds = timer.respawnMinutes * 60;
-            });
-            renderTimers();
-        }
-
-        function filterTimers() {
-            renderTimers();
-        }
-
-        function setTimerFilter(category) {
-            currentTimerFilter = category;
-            let filterBtns = document.querySelectorAll('.timer-filter-btn');
-            filterBtns.forEach(function(btn) {
-                btn.className = 'timer-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-gray-300 hover:bg-purple-900/40';
-            });
-            event.target.className = 'timer-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-purple-600 text-white';
-            renderTimers();
-        }
-
-        // Render Guides & Database Table
-        function renderGuides() {
-            let tbody = document.getElementById('guides-table-body');
-            tbody.innerHTML = '';
-
-            let searchVal = document.getElementById('guide-search').value.toLowerCase();
-
-            guidesData.forEach(function(item) {
-                let matchesCategory = (currentGuideFilter === 'all' || item.category === currentGuideFilter);
-                let matchesSearch = item.name.toLowerCase().includes(searchVal) || item.map.toLowerCase().includes(searchVal) || item.reward.toLowerCase().includes(searchVal);
-
-                if (matchesCategory && matchesSearch) {
-                    let tr = document.createElement('tr');
-                    tr.className = 'hover:bg-purple-900/20 transition';
-
-                    tr.innerHTML = `
-                        <td class="px-6 py-4">
-                            <span class="px-2.5 py-1 rounded-full text-[11px] font-bold uppercase bg-slate-900 border border-purple-800/40 text-cyan-300">${item.category}</span>
-                        </td>
-                        <td class="px-6 py-4 font-semibold text-white">${item.name}</td>
-                        <td class="px-6 py-4 text-purple-200"><i class="fa-solid fa-map-pin mr-1 text-amber-400"></i>${item.map}</td>
-                        <td class="px-6 py-4 text-gray-300">${item.requirement}</td>
-                        <td class="px-6 py-4 text-amber-300 font-medium">${item.reward}</td>
-                    `;
-                    tbody.appendChild(tr);
-                }
-            });
-        }
-
-        function filterGuides() {
-            renderGuides();
-        }
-
-        function setGuideFilter(category) {
-            currentGuideFilter = category;
-            let filterBtns = document.querySelectorAll('.guide-filter-btn');
-            filterBtns.forEach(function(btn) {
-                btn.className = 'guide-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-gray-300 hover:bg-cyan-900/40';
-            });
-            event.target.className = 'guide-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-cyan-600 text-white';
-            renderGuides();
-        }
-
-        // Checklist Logic (Saved locally)
-        function renderChecklist() {
-            let container = document.getElementById('checklist-container');
+        function renderInfusions(list) {
+            const container = document.getElementById('infusions-container');
             container.innerHTML = '';
 
-            checklistData.forEach(function(item, index) {
-                let card = document.createElement('div');
-                card.className = `p-4 rounded-xl border transition cursor-pointer flex items-center justify-between ${
-                    item.done ? 'bg-purple-950/40 border-green-500/40 opacity-75' : 'bg-slate-900/70 border-purple-800/40 hover:border-purple-500/50'
-                }`;
-                card.onclick = function() { toggleChecklist(index); };
+            if (list.length === 0) {
+                container.innerHTML = `<p style="color: var(--text-muted); grid-column: 1/-1; text-align: center; padding: 40px;">No se encontraron infusiones con los filtros seleccionados.</p>`;
+                return;
+            }
 
+            list.forEach(item => {
+                let badgeClass = 'badge-unlock';
+                if (item.type === 'Transform') badgeClass = 'badge-transform';
+                if (item.type === 'Buff Chance') badgeClass = 'badge-buff';
+
+                let starsHtml = '★'.repeat(item.stars);
+
+                const card = document.createElement('div');
+                card.className = 'infusion-card';
                 card.innerHTML = `
-                    <div class="flex items-center space-x-3">
-                        <div class="w-6 h-6 rounded-lg border ${item.done ? 'bg-green-500 border-green-400 text-slate-950' : 'border-purple-500/50 bg-slate-950'} flex items-center justify-center transition">
-                            ${item.done ? '<i class="fa-solid fa-check text-xs font-bold"></i>' : ''}
-                        </div>
-                        <div>
-                            <h4 class="text-sm font-bold ${item.done ? 'line-through text-gray-400' : 'text-white'}">${item.title}</h4>
-                            <p class="text-xs text-gray-400">${item.desc}</p>
-                        </div>
+                    <span class="infusion-badge ${badgeClass}">${item.type}</span>
+                    <div class="eidolon-name">
+                        <i class="fa-solid fa-ghost"></i> ${item.eidolon}
+                        <span class="stars-rank">${starsHtml}</span>
                     </div>
+                    <div class="skill-affected">${item.skill}</div>
+                    <div class="infusion-desc">${item.desc}</div>
                 `;
                 container.appendChild(card);
             });
         }
 
-        function toggleChecklist(index) {
-            checklistData[index].done = !checklistData[index].done;
-            saveChecklist();
-            renderChecklist();
+        function filterInfusions() {
+            const search = document.getElementById('infusion-search').value.toLowerCase();
+            const typeFilter = document.getElementById('infusion-type-filter').value;
+            const starFilter = document.getElementById('infusion-star-filter').value;
+
+            const filtered = infusionData.filter(item => {
+                const matchesSearch = item.eidolon.toLowerCase().includes(search) || 
+                                      item.skill.toLowerCase().includes(search) || 
+                                      item.desc.toLowerCase().includes(search);
+                const matchesType = (typeFilter === 'all') || (item.type === typeFilter);
+                const matchesStar = (starFilter === 'all') || (item.stars.toString() === starFilter);
+
+                return matchesSearch && matchesType && matchesStar;
+            });
+
+            renderInfusions(filtered);
         }
 
-        function resetChecklist() {
-            checklistData.forEach(function(item) { item.done = false; });
-            saveChecklist();
-            renderChecklist();
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-item button').forEach(el => el.classList.remove('active'));
+
+            document.getElementById(tabId).classList.add('active');
+            event.currentTarget.classList.add('active');
         }
 
         function saveChecklist() {
-            try {
-                localStorage.setItem('hyperion_checklist', JSON.stringify(checklistData));
-            } catch (e) {
-                // Ignore if storage unavailable
-            }
+            const state = {
+                d1: document.getElementById('d1').checked,
+                d2: document.getElementById('d2').checked,
+                d3: document.getElementById('d3').checked,
+                d4: document.getElementById('d4').checked,
+            };
+            localStorage.setItem('hyperion_checklist', JSON.stringify(state));
         }
 
         function loadChecklist() {
-            try {
-                let saved = localStorage.getItem('hyperion_checklist');
-                if (saved) {
-                    let parsed = JSON.parse(saved);
-                    if (Array.isArray(parsed) && parsed.length === checklistData.length) {
-                        checklistData = parsed;
-                    }
-                }
-            } catch (e) {
-                // Fallback to default
+            const saved = localStorage.getItem('hyperion_checklist');
+            if (saved) {
+                const state = JSON.parse(saved);
+                if (state.d1) document.getElementById('d1').checked = state.d1;
+                if (state.d2) document.getElementById('d2').checked = state.d2;
+                if (state.d3) document.getElementById('d3').checked = state.d3;
+                if (state.d4) document.getElementById('d4').checked = state.d4;
             }
         }
+
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', () => {
+            renderInfusions(infusionData);
+            loadChecklist();
+        });
     </script>
 </body>
 </html>
